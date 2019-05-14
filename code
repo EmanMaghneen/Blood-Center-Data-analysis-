@@ -1,0 +1,139 @@
+# Import Libraries
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.mlab as mlab
+import seaborn as sns
+
+# Include DataSet
+df = pd.read_csv('transfusion.data.csv')
+Recency = df['Recency (months)']
+Frequency = df['Frequency (times)']
+Monetary = df['Monetary (c.c. blood)']
+Time = df['Time (months)']
+
+
+# plot data
+#Recency
+#--------Recency Rug Plots
+ax1 = plt.subplots()
+plt.title("Recency Rug Plot")
+sns.distplot(Recency,hist=False, rug=True)
+plt.show()
+#--------Recency Histogram Plot
+histax1 = plt.subplots()
+plt.title("Recency Histogram")
+plt.hist(Recency,bins=15)
+plt.show()
+#---BoxPlot for Recency 
+BoxPlot1 = plt.subplots()
+plt.title('Recency Box Plot')
+sns.set(style="whitegrid")
+sns.boxplot(Recency)
+plt.show()
+#Recency mean and var 
+print("mean :",Recency.mean())
+print("var : ",Recency.var())
+
+
+#Time
+#--------Time Rug Plots
+ax4 = plt.subplots()
+plt.title("Time Rug Plot")
+sns.distplot(Time,hist=False, rug=True)
+plt.show()
+#--------Time Histogram Plot
+histax4 = plt.subplots()
+plt.title("Time Histogram Plot")
+plt.hist(Time,bins=15)
+plt.show()
+#---BoxPlot for FirstTime 
+BoxPlot4= plt.subplots()
+sns.set(style="whitegrid")
+sns.boxplot(Time)
+plt.title("BoxPlot for FirstTime ")
+plt.show()
+print("mean :",Time.mean())
+print("var : ",Time.var())
+
+
+
+#---Scatter for Recency against Frequency
+# Set title
+plt.title('Scatter for Recency against Frequency ')
+x=Recency
+y=Frequency
+plt.scatter(x, y, alpha=0.5,marker='o')
+plt.xlabel('Recency') 
+plt.ylabel('Frequency')
+plt.show()
+#---Scatter for Time against Frequency
+ScatterRecFreq = plt.subplots()
+x= Time
+y=Frequency
+plt.scatter(x, y, alpha=0.5,marker='o')
+plt.xlabel('Time') 
+plt.ylabel('Frequency')
+plt.title('Scatter for Time against Frequency')
+plt.show()
+#---Scatter for Recency against FirstTime
+ScatterRecTime = plt.subplots()
+plt.title("Scatter for Recency against FirstTime")
+x=Time
+y=Recency
+plt.scatter(x, y, alpha=0.5,marker='o')
+plt.xlabel('Time') 
+plt.ylabel('Recency')
+plt.show()
+# Frequency Histogram
+histax2 = plt.subplots()
+plt.title("Frequency Histogram")
+plt.hist(Frequency,bins=15)
+plt.show()
+
+
+sample1=[]
+sample1_mean=[]
+sample1_var=[]
+for i in range(50):
+    sample1.append(df.sample(n=10))
+    print('\033[1m' + '\033[4m' +"sample" + '\033[0m',i+1, " : \n\tmean :\n",sample1[i].mean(),"\n\tvar:\n",sample1[i].var())
+    sample1_mean.append(sample1[i].mean())
+    
+    
+    
+sns.heatmap(df.cov(), annot=True, fmt=".2f")
+plt.show()
+
+plt.plot(sample1_mean)
+plt.show()
+sample_mean_var=np.var(sample1_mean)
+print("Sample Mean Variance",sample_mean_var)
+
+
+sample2=[]
+sample2_mean=[]
+for i in range(50):
+    sample2.append(df.sample(n=100))
+    print('\033[1m' + '\033[4m' +"sample" + '\033[0m',i+1, " : \n\tmean :\n",sample2[i].mean(),"\n\tvar:\n",sample2[i].var())
+    sample2_mean.append(sample2[i].mean())
+    
+    
+print(df.mean())
+print("------------")
+print(sum(sample1[i].mean() for i in range(1,50))/50)
+
+
+print(df.mean())
+print("------------")
+print(sum(sample2[i].mean() for i in range(1,50))/50)
+
+
+plt.plot(sample2_mean)
+plt.show()
+sample_mean_var=np.var(sample2_mean)
+print("Sample Mean Variance",sample_mean_var)
+
+
+print("mean :",Recency.mean())
+print (sum(Recency)/Recency.count())
